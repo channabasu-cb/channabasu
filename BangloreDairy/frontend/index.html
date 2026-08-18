@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangalore Dairy | Fresh Morning Milk & Daily Dairy Subscription</title>
+    <meta name="description" content="Order fresh farm milk, curd, ghee, butter, paneer and traditional sweets in Bangalore with daily 6:00 AM morning delivery subscription.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Top Delivery & Info Bar -->
+    <header class="top-announcement-bar">
+        <div class="container top-bar-content">
+            <div class="top-bar-left">
+                <span class="pulse-dot"></span>
+                <span>Bengaluru Morning Delivery: <strong>Guaranteed by 6:00 AM</strong></span>
+                <span class="divider">|</span>
+                <span class="cutoff-timer">⏰ Order before <strong>9:00 PM</strong> for tomorrow's delivery</span>
+            </div>
+            <div class="top-bar-right">
+                <div class="backend-status-badge" id="backendStatusBadge" title="Click to test API Gateway connection">
+                    <span class="status-indicator"></span>
+                    <span id="backendStatusText">Backend: Standalone / Mock Mode</span>
+                </div>
+                <button class="notification-top-btn" id="openNotificationCenterBtn" aria-label="Open Email Inbox">
+                    📧 Email Center <span class="badge" id="emailNotificationCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Bar -->
+    <nav class="main-navbar">
+        <div class="container nav-content">
+            <div class="nav-left">
+                <a href="#" class="brand-logo" id="brandLogo">
+                    <div class="logo-icon-wrap">
+                        <span class="logo-icon">🥛</span>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">Bangalore Dairy</span>
+                        <span class="brand-tagline">Nandini & Farm Fresh Daily</span>
+                    </div>
+                </a>
+
+                <div class="pincode-picker" id="pincodePicker">
+                    <span class="pin-icon">📍</span>
+                    <div class="pin-info">
+                        <span class="pin-label">Delivering to</span>
+                        <span class="pin-value" id="selectedPincodeText">Indiranagar (560038) ▾</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="nav-center search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="productSearchInput" placeholder="Search Fresh Milk, Nandini Ghee, Curd, Paneer, Mysore Pak..." autocomplete="off">
+                <button class="clear-search-btn" id="clearSearchBtn" style="display: none;">✕</button>
+            </div>
+
+            <div class="nav-right">
+                <!-- User Account / Login Button -->
+                <div class="user-profile-menu" id="userMenuBtn">
+                    <div class="user-avatar-circle" id="userAvatar">C</div>
+                    <div class="user-info-text">
+                        <span class="user-greeting" id="userGreeting">Namaskara,</span>
+                        <span class="user-name" id="userDisplayName">Channabasappa</span>
+                    </div>
+                    <span class="wallet-pill" id="walletPill" title="Dairy Wallet Balance">
+                        💰 ₹<span id="walletBalanceDisplay">1,250</span>
+                    </span>
+                </div>
+
+                <!-- Cart Button -->
+                <button class="cart-nav-btn" id="cartNavBtn" aria-label="View Cart">
+                    <span class="cart-icon">🛒</span>
+                    <div class="cart-text">
+                        <span class="cart-label">Cart</span>
+                        <span class="cart-total-badge" id="cartTotalHeader">₹0</span>
+                    </div>
+                    <span class="cart-count-badge" id="cartCountBadge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-container">
+            <div class="hero-text-content">
+                <div class="hero-badge">
+                    <span class="star">★</span> Pure Farm Sourced Daily • 100% Tested Quality
+                </div>
+                <h1 class="hero-title">
+                    Fresh Morning Milk & Dairy <br>
+                    <span class="text-gradient">Delivered by 6:00 AM Daily</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Enjoy pure Nandini Milk, farm fresh A2 Cow milk, thick curd, aromatic golden ghee, and Bengaluru sweets. Set your daily subscription once or order anytime on-demand.
+                </p>
+
+                <div class="hero-action-pills">
+                    <button class="filter-tab active" data-filter="all">🌟 All Dairy Products</button>
+                    <button class="filter-tab" data-filter="subscription">📅 Daily Subscription Items</button>
+                    <button class="filter-tab" data-filter="milk">🥛 Milk Pouches</button>
+                    <button class="filter-tab" data-filter="curd-buttermilk">🥣 Curd & Majjige</button>
+                    <button class="filter-tab" data-filter="ghee-butter">🧈 Ghee & Butter</button>
+                    <button class="filter-tab" data-filter="paneer-cheese">🧀 Fresh Paneer</button>
+                    <button class="filter-tab" data-filter="sweets-beverages">🍬 Mysore Sweets</button>
+                </div>
+            </div>
+
+            <div class="hero-highlights-card">
+                <div class="highlight-item">
+                    <div class="h-icon">⏰</div>
+                    <div class="h-text">
+                        <strong>6:00 AM Sharp</strong>
+                        <span>Before your morning tea</span>
+                    </div>
+                </div>
+                <div class="highlight-item">
+                    <div class="h-icon">🔄</div>
+                    <div class="h-text">
+                        <strong>Flexible Pause & Play</strong>
+                        <span>Going on vacation? Pause anytime</span>
+                    </div>
+                </div>
+                <div class="highlight-item">
+                    <div class="h-icon">🚚</div>
+                    <div class="h-text">
+                        <strong>Free Morning Delivery</strong>
+                        <span>Zero delivery fee on subscriptions</span>
+                    </div>
+                </div>
+                <div class="highlight-item">
+                    <div class="h-icon">⚡</div>
+                    <div class="h-text">
+                        <strong>Kafka Event Driven</strong>
+                        <span>Real-time tracking & instant email alerts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section: Products & Active Subscriptions -->
+    <main class="container main-layout">
+        <!-- Subscriptions & Fast Banner Bar -->
+        <section class="active-subscription-bar" id="activeSubscriptionBar" style="display: none;">
+            <div class="sub-banner-content">
+                <div class="sub-icon">📅</div>
+                <div class="sub-info">
+                    <strong>Active Daily Milk Subscriptions:</strong>
+                    <span id="activeSubText">2 Items delivering everyday at 5:30 AM to Indiranagar</span>
+                </div>
+                <button class="btn-sm btn-outline-white" id="manageSubscriptionsBtn">Manage Subscription</button>
+            </div>
+        </section>
+
+        <!-- Product Grid Header -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title" id="catalogHeading">Fresh Dairy Products</h2>
+                <p class="section-subtitle" id="catalogSubheading">Farm fresh products chilled and packed under strict quality standards</p>
+            </div>
+            <div class="catalog-view-toggles">
+                <span class="item-count-label" id="productCountLabel">Showing 11 products</span>
+            </div>
+        </div>
+
+        <!-- Products Grid Container -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Dynamically populated by app.js -->
+        </div>
+    </main>
+
+    <!-- Features & Guarantee Grid -->
+    <section class="trust-features-section">
+        <div class="container features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>100% Quality Assured</h3>
+                <p>Triple-tested for fat, SNF, and purity standards from farm chilling centers directly to your home.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>One-Click Subscriptions</h3>
+                <p>Set daily, alternate days, or weekday schedules. Pause on vacation with a single tap.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📧</div>
+                <h3>Instant Email Notifications</h3>
+                <p>Powered by Apache Kafka event streaming & Spring Boot Notification Service for immediate confirmation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Dairy Wallet Cashback</h3>
+                <p>Earn ₹500 welcome credit bonus on sign up, fast checkout without OTP delays.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide-out Cart Drawer -->
+    <div class="cart-drawer-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <div class="cart-header-title">
+                <h3>🛒 Your Dairy Cart</h3>
+                <span class="cart-subtitle" id="cartItemCountSubtitle">0 items added</span>
+            </div>
+            <button class="close-drawer-btn" id="closeCartBtn" aria-label="Close Cart">✕</button>
+        </div>
+
+        <div class="cart-body" id="cartBody">
+            <div class="empty-cart-state" id="emptyCartState">
+                <div class="empty-cart-icon">🥛</div>
+                <h4>Your cart is empty!</h4>
+                <p>Add fresh morning milk, curd, pure ghee or sweets to schedule your delivery.</p>
+                <button class="btn-primary" id="startShoppingBtn">Browse Products</button>
+            </div>
+
+            <!-- Cart Items List -->
+            <div class="cart-items-list" id="cartItemsList"></div>
+
+            <!-- Delivery Slot Selection -->
+            <div class="cart-delivery-slot-card" id="cartDeliverySlotCard">
+                <label class="cart-section-label">⏰ Select Delivery Slot</label>
+                <div class="slot-options">
+                    <label class="slot-option active">
+                        <input type="radio" name="deliverySlot" value="MORNING_5_30_AM" checked>
+                        <div class="slot-box">
+                            <span class="slot-name">🌅 Morning Delivery</span>
+                            <span class="slot-time">5:30 AM – 7:00 AM (Recommended)</span>
+                        </div>
+                    </label>
+                    <label class="slot-option">
+                        <input type="radio" name="deliverySlot" value="EVENING_5_30_PM">
+                        <div class="slot-box">
+                            <span class="slot-name">🌆 Evening Delivery</span>
+                            <span class="slot-time">5:30 PM – 7:00 PM</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Delivery Address Card -->
+            <div class="cart-address-card" id="cartAddressCard">
+                <div class="address-header">
+                    <label class="cart-section-label">📍 Delivery Address (Bengaluru)</label>
+                    <button class="btn-link" id="editAddressBtn">Change</button>
+                </div>
+                <p class="address-text" id="cartDeliveryAddress">
+                    #128, 4th Cross, CMH Road, Indiranagar, Bengaluru - 560038
+                </p>
+            </div>
+
+            <!-- Payment Method Card -->
+            <div class="cart-payment-card" id="cartPaymentCard">
+                <label class="cart-section-label">💳 Payment Method</label>
+                <div class="payment-options">
+                    <label class="payment-option active">
+                        <input type="radio" name="paymentMode" value="WALLET" checked>
+                        <div class="payment-box">
+                            <span>💰 Dairy Wallet</span>
+                            <span class="wallet-balance-hint">Balance: ₹<span id="cartWalletBal">1,250</span></span>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMode" value="UPI">
+                        <div class="payment-box">
+                            <span>📱 UPI (GPay / PhonePe / Paytm)</span>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMode" value="COD">
+                        <div class="payment-box">
+                            <span>💵 Cash on Delivery</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Bill Summary -->
+            <div class="cart-bill-summary" id="cartBillSummary">
+                <label class="cart-section-label">🧾 Bill Details</label>
+                <div class="bill-row">
+                    <span>Item Total</span>
+                    <span id="billItemTotal">₹0.00</span>
+                </div>
+                <div class="bill-row">
+                    <span>Delivery Partner Fee</span>
+                    <span class="free-text" id="billDeliveryFee">FREE</span>
+                </div>
+                <div class="bill-row discount-row" id="walletDiscountRow">
+                    <span>Dairy Promo / Welcome Discount</span>
+                    <span class="discount-text">-₹0.00</span>
+                </div>
+                <div class="bill-divider"></div>
+                <div class="bill-row grand-total-row">
+                    <span>To Pay</span>
+                    <span class="grand-total" id="billGrandTotal">₹0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-footer" id="cartFooter">
+            <button class="place-order-btn" id="placeOrderBtn">
+                <span class="btn-text">Place Order & Dispatch</span>
+                <span class="btn-total" id="placeOrderBtnTotal">₹0.00</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Daily Subscription Scheduler Modal -->
+    <div class="modal-backdrop" id="subscriptionModal" style="display: none;">
+        <div class="modal-content subscription-modal-card">
+            <div class="modal-header">
+                <h3>📅 Setup Daily Milk Subscription</h3>
+                <button class="close-modal-btn" id="closeSubModalBtn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="sub-product-summary">
+                    <img id="subProductImg" src="" alt="" class="sub-prod-thumb">
+                    <div>
+                        <h4 id="subProductName">Nandini Toned Milk (Blue Pouch)</h4>
+                        <p id="subProductUnit">500 ml • ₹22.00 / pouch</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Daily Quantity (Packets / Day):</label>
+                    <div class="quantity-picker-large">
+                        <button class="btn-qty" id="subQtyMinus">-</button>
+                        <span id="subQtyVal">1</span>
+                        <button class="btn-qty" id="subQtyPlus">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Delivery Frequency:</label>
+                    <div class="frequency-grid">
+                        <button class="freq-btn active" data-freq="DAILY">Everyday</button>
+                        <button class="freq-btn" data-freq="ALTERNATE_DAYS">Alternate Days</button>
+                        <button class="freq-btn" data-freq="WEEKDAYS_ONLY">Mon - Fri</button>
+                        <button class="freq-btn" data-freq="WEEKENDS_ONLY">Sat - Sun</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Delivery Time Slot:</label>
+                    <div class="slot-pill-group">
+                        <label class="pill-radio active">
+                            <input type="radio" name="subSlot" value="MORNING_5_30_AM" checked>
+                            <span>🌅 Morning (5:30 AM - 7:00 AM)</span>
+                        </label>
+                        <label class="pill-radio">
+                            <input type="radio" name="subSlot" value="EVENING_5_30_PM">
+                            <span>🌆 Evening (5:30 PM - 7:00 PM)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Subscription Start Date:</label>
+                    <input type="date" id="subStartDateInput" class="form-input">
+                </div>
+
+                <div class="sub-estimate-box">
+                    <div class="est-row">
+                        <span>Estimated Monthly Bill (30 days):</span>
+                        <strong id="subMonthlyEstimate">₹660.00</strong>
+                    </div>
+                    <span class="est-note">✓ Auto-debited from Dairy Wallet daily upon 6:00 AM delivery</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelSubModalBtn">Cancel</button>
+                <button class="btn-primary" id="confirmSubModalBtn">Activate Subscription</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Notification Center & Live Inspector Modal -->
+    <div class="modal-backdrop" id="notificationModal" style="display: none;">
+        <div class="modal-content notification-modal-card">
+            <div class="modal-header">
+                <div class="header-icon-title">
+                    <span class="header-icon">📧</span>
+                    <div>
+                        <h3>Bangalore Dairy Email Notification Center</h3>
+                        <p class="modal-desc">Asynchronous Kafka Event Consumer & HTML Email Dispatcher</p>
+                    </div>
+                </div>
+                <button class="close-modal-btn" id="closeNotificationModalBtn">✕</button>
+            </div>
+            <div class="modal-body email-center-layout">
+                <div class="email-inbox-sidebar">
+                    <div class="sidebar-header">Dispatched Emails (<span id="sidebarEmailCount">0</span>)</div>
+                    <div class="email-list-group" id="emailListGroup">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <div class="email-preview-pane">
+                    <div class="email-meta-bar" id="emailMetaBar">
+                        <div class="meta-row"><strong>From:</strong> Bangalore Dairy &lt;orders@bangaloredairy.in&gt;</div>
+                        <div class="meta-row"><strong>To:</strong> <span id="previewRecipient">channa@bangaloredairy.in</span></div>
+                        <div class="meta-row"><strong>Subject:</strong> <span id="previewSubject">Order Confirmation</span></div>
+                        <div class="meta-row"><strong>Event Broker:</strong> <span class="badge-kafka">Apache Kafka: dairy.orders.created</span></div>
+                    </div>
+                    <div class="email-html-viewport" id="emailHtmlViewport">
+                        <div class="empty-email-preview">
+                            <p>Place an order or trigger a test event to see the real-time HTML email notification rendered here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Auth & Profile Modal -->
+    <div class="modal-backdrop" id="authModal" style="display: none;">
+        <div class="modal-content auth-modal-card">
+            <div class="modal-header">
+                <h3 id="authModalTitle">🥛 Customer Login</h3>
+                <button class="close-modal-btn" id="closeAuthModalBtn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="tabLoginBtn">Sign In</button>
+                    <button class="auth-tab-btn" id="tabRegisterBtn">New Customer</button>
+                </div>
+
+                <!-- Quick Demo Login Bar -->
+                <div class="demo-login-box">
+                    <span>⚡ Quick Demo Switch:</span>
+                    <div class="demo-buttons">
+                        <button class="btn-sm btn-outline" id="quickLoginCustomer">👤 Channabasappa (Customer)</button>
+                        <button class="btn-sm btn-outline" id="quickLoginAdmin">🛡️ Operations Admin</button>
+                    </div>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="loginEmail" class="form-input" value="channa@bangaloredairy.in" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" class="form-input" value="password123" required>
+                    </div>
+                    <button type="submit" class="btn-primary btn-block">Sign In to Bangalore Dairy</button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="regName" class="form-input" placeholder="e.g. Ramesh Kumar" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="regEmail" class="form-input" placeholder="e.g. ramesh@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="regPassword" class="form-input" placeholder="Min 6 characters" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number (for SMS & 6 AM delivery alerts)</label>
+                        <input type="tel" id="regPhone" class="form-input" placeholder="+91 98765 43210" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Bangalore Delivery Address</label>
+                        <input type="text" id="regAddress" class="form-input" placeholder="Flat No, Apartment, Street" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Area</label>
+                            <input type="text" id="regArea" class="form-input" value="Indiranagar" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Pincode</label>
+                            <input type="text" id="regPincode" class="form-input" value="560038" required>
+                        </div>
+                    </div>
+                    <div class="welcome-bonus-tag">
+                        🎁 You will receive <strong>₹500.00</strong> instant welcome credit in your Dairy Wallet!
+                    </div>
+                    <button type="submit" class="btn-primary btn-block">Create Account & Claim ₹500 Bonus</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Tracker & Confirmation Success Modal -->
+    <div class="modal-backdrop" id="orderSuccessModal" style="display: none;">
+        <div class="modal-content success-modal-card">
+            <div class="modal-header header-success">
+                <div class="success-icon-anim">✓</div>
+                <h3>Order Placed & Scheduled!</h3>
+                <p>Order Number: <strong id="successOrderNumber">BLR-DRY-20260818-A89F</strong></p>
+                <button class="close-modal-btn" id="closeSuccessModalBtn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-tracker-card">
+                    <div class="tracker-header">
+                        <span>Delivery Slot: <strong id="successSlotText">Tomorrow Morning (5:30 AM - 7:00 AM)</strong></span>
+                        <span class="tracker-live-badge">🟢 Live Tracking</span>
+                    </div>
+
+                    <div class="tracker-timeline">
+                        <div class="step-item completed">
+                            <div class="step-circle">1</div>
+                            <div class="step-details">
+                                <strong>Order Received & Confirmed</strong>
+                                <span>Kafka Event 'dairy.orders.created' triggered</span>
+                            </div>
+                        </div>
+                        <div class="step-item active">
+                            <div class="step-circle">2</div>
+                            <div class="step-details">
+                                <strong>Milk Packed at Bangalore Dairy Chilling Unit</strong>
+                                <span>Hosur Road Chilling Center • Tested Fat 4.5%</span>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-circle">3</div>
+                            <div class="step-details">
+                                <strong>Out for Early Morning Route Dispatch</strong>
+                                <span>Delivery Agent Assigned (Route: Indiranagar)</span>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-circle">4</div>
+                            <div class="step-details">
+                                <strong>Delivered at Doorstep</strong>
+                                <span>6:00 AM Fresh Morning Drop</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email-alert-notice">
+                    📧 An HTML Order Confirmation & Receipt has been sent to <strong id="successEmailRecipient">channa@bangaloredairy.in</strong>.
+                    <button class="btn-sm btn-outline" id="viewSentEmailBtn">View Email in Live Inbox ↗</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="continueShoppingSuccessBtn">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pincode Picker Modal -->
+    <div class="modal-backdrop" id="pincodeModal" style="display: none;">
+        <div class="modal-content pincode-modal-card">
+            <div class="modal-header">
+                <h3>📍 Choose Bangalore Delivery Location</h3>
+                <button class="close-modal-btn" id="closePincodeModalBtn">✕</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">Bangalore Dairy delivers 100% fresh milk across all Bengaluru pin codes every morning by 6:00 AM.</p>
+                <div class="pincode-grid">
+                    <button class="pin-card active" data-area="Indiranagar" data-pin="560038">
+                        <strong>Indiranagar</strong>
+                        <span>560038 • 6:00 AM Delivery</span>
+                    </button>
+                    <button class="pin-card" data-area="Koramangala" data-pin="560034">
+                        <strong>Koramangala</strong>
+                        <span>560034 • 5:45 AM Delivery</span>
+                    </button>
+                    <button class="pin-card" data-area="Jayanagar" data-pin="560011">
+                        <strong>Jayanagar</strong>
+                        <span>560011 • 5:30 AM Delivery</span>
+                    </button>
+                    <button class="pin-card" data-area="Whitefield" data-pin="560066">
+                        <strong>Whitefield</strong>
+                        <span>560066 • 6:15 AM Delivery</span>
+                    </button>
+                    <button class="pin-card" data-area="HSR Layout" data-pin="560102">
+                        <strong>HSR Layout</strong>
+                        <span>560102 • 5:50 AM Delivery</span>
+                    </button>
+                    <button class="pin-card" data-area="Electronic City" data-pin="560100">
+                        <strong>Electronic City</strong>
+                        <span>560100 • 6:00 AM Delivery</span>
+                    </button>
+                    <button class="pin-card" data-area="Malleshwaram" data-pin="560003">
+                        <strong>Malleshwaram</strong>
+                        <span>560003 • 5:30 AM Delivery</span>
+                    </button>
+                    <button class="pin-card" data-area="Hebbal / Yelahanka" data-pin="560024">
+                        <strong>Hebbal / Yelahanka</strong>
+                        <span>560024 • 6:10 AM Delivery</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="brand-logo footer-logo">
+                    <span class="logo-icon">🥛</span>
+                    <span class="brand-name">Bangalore Dairy</span>
+                </div>
+                <p>Delivering authentic Karnataka fresh farm milk, Nandini dairy essentials, curd, butter, and traditional sweets across Bengaluru every morning.</p>
+                <div class="coop-badge">Karnataka Co-operative Milk Federation (KMF) Network Partner</div>
+            </div>
+
+            <div class="footer-links">
+                <h4>Quick Dairy Links</h4>
+                <ul>
+                    <li><a href="#" data-filter="milk">Fresh Cow Milk</a></li>
+                    <li><a href="#" data-filter="curd-buttermilk">Curd & Buttermilk</a></li>
+                    <li><a href="#" data-filter="ghee-butter">Pure Nandini Ghee</a></li>
+                    <li><a href="#" data-filter="paneer-cheese">Fresh Malai Paneer</a></li>
+                    <li><a href="#" data-filter="sweets-beverages">Mysore Pak & Sweets</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Architecture & Tech</h4>
+                <ul>
+                    <li><a href="#" id="viewTechStackBtn">Spring Boot 3 Microservices</a></li>
+                    <li><a href="#" id="viewKafkaEventsBtn">Apache Kafka Async Broker</a></li>
+                    <li><a href="#" id="viewRedisCacheBtn">Redis Caching Layer</a></li>
+                    <li><a href="#" id="viewPostgresBtn">PostgreSQL / MongoDB Schemas</a></li>
+                    <li><a href="#" id="viewApiDocsBtn">Spring Cloud Gateway REST API</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Bangalore Dairy Hub</h4>
+                <p>📍 Dairy Circle, Hosur Road, Bengaluru, KA 560029</p>
+                <p>📞 Morning Helpline: +91 80 2222 8888</p>
+                <p>✉️ orders@bangaloredairy.in</p>
+                <div class="morning-delivery-badge">☀️ Morning Dispatch: 5:00 AM – 7:00 AM</div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container bottom-content">
+                <span>© 2026 Bangalore Dairy Platform • Developed with Spring Boot Microservices, Kafka & Redis.</span>
+                <span>Crafted for Bengaluru with ❤️</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App JavaScript -->
+    <script src="js/app.js"></script>
+</body>
+</html>

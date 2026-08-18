@@ -1,0 +1,62 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+      routes:
+        # Auth Service Routes
+        - id: auth-service
+          uri: ${AUTH_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/v1/auth/**
+
+        # Catalog Service Routes
+        - id: catalog-service
+          uri: ${CATALOG_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/v1/products/**, /api/v1/categories/**
+
+        # Order & Subscription Service Routes
+        - id: order-service
+          uri: ${ORDER_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/v1/orders/**, /api/v1/subscriptions/**, /api/v1/cart/**
+
+        # Notification Service Routes
+        - id: notification-service
+          uri: ${NOTIFICATION_SERVICE_URI:http://localhost:8084}
+          predicates:
+            - Path=/api/v1/notifications/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+AUTH_SERVICE_URI: http://auth-service:8081
+CATALOG_SERVICE_URI: http://catalog-service:8082
+ORDER_SERVICE_URI: http://order-service:8083
+NOTIFICATION_SERVICE_URI: http://notification-service:8084
