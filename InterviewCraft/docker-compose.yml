@@ -1,0 +1,151 @@
+version: '3.8'
+
+services:
+  # =========================================================================
+  # INFRASTRUCTURE SERVICES
+  # =========================================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: interviewcraft-postgres
+    environment:
+      POSTGRES_DB: interviewcraft_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - interviewcraft-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: interviewcraft-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - interviewcraft-network
+
+  # =========================================================================
+  # INTERVIEWCRAFT MICROSERVICES
+  # =========================================================================
+  auth-service:
+    build:
+      context: .
+      dockerfile: interviewcraft-auth-service/Dockerfile
+    container_name: interviewcraft-auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SERVER_PORT=8081
+      - DB_URL=jdbc:postgresql://postgres:5432/interviewcraft_db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgrespassword
+      - JWT_SECRET=InterviewCraftSecretKeyForJWTGenerationMustBeAtLeast256BitsLongForHMACSHA256Security
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - interviewcraft-network
+
+  resource-service:
+    build:
+      context: .
+      dockerfile: interviewcraft-resource-service/Dockerfile
+    container_name: interviewcraft-resource-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SERVER_PORT=8084
+      - DB_URL=jdbc:postgresql://postgres:5432/interviewcraft_db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgrespassword
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - interviewcraft-network
+
+  assessment-service:
+    build:
+      context: .
+      dockerfile: interviewcraft-assessment-service/Dockerfile
+    container_name: interviewcraft-assessment-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SERVER_PORT=8082
+      - DB_URL=jdbc:postgresql://postgres:5432/interviewcraft_db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgrespassword
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GEMINI_MODEL=gemini-1.5-flash
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - interviewcraft-network
+
+  plan-service:
+    build:
+      context: .
+      dockerfile: interviewcraft-plan-service/Dockerfile
+    container_name: interviewcraft-plan-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SERVER_PORT=8083
+      - DB_URL=jdbc:postgresql://postgres:5432/interviewcraft_db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgrespassword
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - interviewcraft-network
+
+  gateway:
+    build:
+      context: .
+      dockerfile: interviewcraft-gateway/Dockerfile
+    container_name: interviewcraft-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_PORT=8080
+      - AUTH_SERVICE_URL=http://auth-service:8081
+      - ASSESSMENT_SERVICE_URL=http://assessment-service:8082
+      - PLAN_SERVICE_URL=http://plan-service:8083
+      - RESOURCE_SERVICE_URL=http://resource-service:8084
+    depends_on:
+      - auth-service
+      - assessment-service
+      - plan-service
+      - resource-service
+    networks:
+      - interviewcraft-network
+
+  frontend:
+    image: nginx:alpine
+    container_name: interviewcraft-frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./interviewcraft-frontend:/usr/share/nginx/html:ro
+    networks:
+      - interviewcraft-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  interviewcraft-network:
+    driver: bridge

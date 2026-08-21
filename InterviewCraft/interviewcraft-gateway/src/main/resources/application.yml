@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: interviewcraft-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/auth/**
+
+        - id: assessment-service
+          uri: ${ASSESSMENT_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/assessment/**
+
+        - id: plan-service
+          uri: ${PLAN_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/plans/**
+
+        - id: resource-service
+          uri: ${RESOURCE_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/api/resources/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,routes
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    com.interviewcraft: DEBUG

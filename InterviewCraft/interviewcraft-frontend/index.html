@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewCraft AI – Tailored Interview Preparation & Verified Reference Materials</title>
+    <meta name="description" content="Interactive AI interview consultation, dynamic roadmap milestones with direct LeetCode and reference material links, and 100% verified educational materials.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-background">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="app-header">
+        <div class="container header-container">
+            <div class="brand-logo" onclick="app.openTab('chat-view')">
+                <div class="logo-icon">
+                    <i class="ph-bold ph-sparkle"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">InterviewCraft <span class="badge-ai">AI</span></span>
+                    <span class="logo-subtitle">Tailored Preparation & Verified Materials</span>
+                </div>
+            </div>
+
+            <!-- Top Navigation Tabs (Link Verifier tab removed as requested) -->
+            <nav class="nav-tabs" id="navTabs">
+                <button class="nav-tab active" data-tab="chat-view" id="nav-tab-chat">
+                    <i class="ph-bold ph-chats-circle"></i>
+                    <span>AI Consultation</span>
+                </button>
+                <button class="nav-tab" data-tab="roadmap-view" id="nav-tab-roadmap">
+                    <i class="ph-bold ph-path"></i>
+                    <span>Tailored Roadmap</span>
+                    <span class="tasks-counter-pill" id="headerTasksCount">19 Tasks</span>
+                </button>
+                <button class="nav-tab" data-tab="resources-view" id="nav-tab-resources">
+                    <i class="ph-bold ph-books"></i>
+                    <span>Verified References</span>
+                    <span class="verified-pill">Active Links</span>
+                </button>
+            </nav>
+
+            <!-- User Auth & Gemini API Key Settings -->
+            <div class="header-actions">
+                <button class="btn btn-secondary btn-sm" id="geminiKeyBtn" title="Configure Google Gemini API Key">
+                    <i class="ph-bold ph-key"></i>
+                    <span id="geminiKeyBtnLabel">Gemini API Key</span>
+                </button>
+
+                <div class="user-profile-badge" id="userProfileBadge">
+                    <div class="avatar" id="userAvatar">CB</div>
+                    <div class="user-meta">
+                        <span class="user-name" id="displayUserName">Candidate</span>
+                        <span class="user-role-tag" id="displayUserRole">Backend Engineer</span>
+                    </div>
+                </div>
+                <button class="btn btn-outline btn-sm" id="authActionBtn">
+                    <i class="ph-bold ph-sign-in"></i>
+                    <span id="authBtnLabel">Sign In</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content container">
+        
+        <!-- ==================== TAB 1: AI CONSULTATION & CHAT ==================== -->
+        <section class="tab-panel active" id="chat-view">
+            <div class="grid-chat-layout">
+                
+                <!-- Left Sidebar: Editable Target Profile & Matrix -->
+                <aside class="glass-card profile-sidebar">
+                    <div class="card-header">
+                        <div class="icon-wrap"><i class="ph-bold ph-sliders-horizontal"></i></div>
+                        <div>
+                            <h3>Profile & Skill Matrix</h3>
+                            <p class="subtitle">Fully editable – live updates roadmap</p>
+                        </div>
+                    </div>
+
+                    <!-- Editable Target Role -->
+                    <div class="profile-section">
+                        <label for="editTargetRole">Target Role</label>
+                        <select id="editTargetRole" class="form-select">
+                            <option value="Senior Java Backend Engineer">Senior Java Backend Engineer</option>
+                            <option value="Fullstack Software Engineer">Fullstack Software Engineer</option>
+                            <option value="Distributed Systems & Cloud Engineer">Distributed Systems & Cloud Engineer</option>
+                            <option value="Senior Python / Backend Developer">Senior Python / Backend Developer</option>
+                            <option value="Engineering Lead / Architect">Engineering Lead / Architect</option>
+                            <option value="DevOps & Site Reliability Engineer (SRE)">DevOps & Site Reliability Engineer (SRE)</option>
+                        </select>
+                    </div>
+
+                    <!-- Editable Grid: Timeline & Target Company -->
+                    <div class="profile-grid">
+                        <div class="profile-section">
+                            <label for="editTimeline">Timeline</label>
+                            <select id="editTimeline" class="form-select">
+                                <option value="14 Days">2 Weeks (Sprint)</option>
+                                <option value="30 Days" selected>30 Days (Standard)</option>
+                                <option value="60 Days">60 Days (Deep Dive)</option>
+                                <option value="90 Days">90 Days (Mastery)</option>
+                            </select>
+                        </div>
+                        <div class="profile-section">
+                            <label for="editCompanyTier">Target Tier</label>
+                            <select id="editCompanyTier" class="form-select">
+                                <option value="FAANG / Tier-1 Tech" selected>FAANG / Tier-1</option>
+                                <option value="High Growth Startup">Unicorn Startup</option>
+                                <option value="Fintech / Banking">Fintech & Payments</option>
+                                <option value="Enterprise SaaS">Enterprise SaaS</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Editable Tech Stack Tags -->
+                    <div class="profile-section">
+                        <label>Tech Stack Focus (Click tag to toggle)</label>
+                        <div class="tags-container" id="profileTechTags">
+                            <span class="tag active" data-tech="Java 21">Java 21</span>
+                            <span class="tag active" data-tech="Spring Boot 3">Spring Boot 3</span>
+                            <span class="tag active" data-tech="PostgreSQL">PostgreSQL</span>
+                            <span class="tag active" data-tech="Kafka">Kafka</span>
+                            <span class="tag active" data-tech="Redis">Redis</span>
+                            <span class="tag active" data-tech="Microservices">Microservices</span>
+                            <span class="tag" data-tech="Docker">Docker</span>
+                            <span class="tag" data-tech="AWS">AWS</span>
+                            <span class="tag" data-tech="GraphQL">GraphQL</span>
+                            <span class="tag" data-tech="Kubernetes">Kubernetes</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Editable Skill Matrix Sliders -->
+                    <div class="skill-meter-container">
+                        <div class="matrix-header">
+                            <label>Interactive Skill Proficiency Matrix</label>
+                            <span class="matrix-hint">Adjust sliders to customize your plan</span>
+                        </div>
+                        
+                        <div class="slider-item">
+                            <div class="slider-info">
+                                <span>🧠 Data Structures & Algorithms</span>
+                                <span class="slider-val" id="valDsa">65%</span>
+                            </div>
+                            <input type="range" min="10" max="100" value="65" class="matrix-slider" id="sliderDsa">
+                        </div>
+
+                        <div class="slider-item">
+                            <div class="slider-info">
+                                <span>🏗️ System Design & Architecture (HLD)</span>
+                                <span class="slider-val" id="valHld">55%</span>
+                            </div>
+                            <input type="range" min="10" max="100" value="55" class="matrix-slider" id="sliderHld">
+                        </div>
+
+                        <div class="slider-item">
+                            <div class="slider-info">
+                                <span>📐 Low-Level Design (LLD) & Clean Code</span>
+                                <span class="slider-val" id="valLld">75%</span>
+                            </div>
+                            <input type="range" min="10" max="100" value="75" class="matrix-slider" id="sliderLld">
+                        </div>
+
+                        <div class="slider-item">
+                            <div class="slider-info">
+                                <span>⚡ Frameworks (Spring Boot) & Concurrency</span>
+                                <span class="slider-val" id="valFramework">80%</span>
+                            </div>
+                            <input type="range" min="10" max="100" value="80" class="matrix-slider" id="sliderFramework">
+                        </div>
+
+                        <div class="slider-item">
+                            <div class="slider-info">
+                                <span>🤝 Behavioral & Leadership (STAR)</span>
+                                <span class="slider-val" id="valBehavioral">70%</span>
+                            </div>
+                            <input type="range" min="10" max="100" value="70" class="matrix-slider" id="sliderBehavioral">
+                        </div>
+                    </div>
+
+                    <div class="sidebar-action-box">
+                        <button class="btn btn-primary btn-block glow-btn" id="generateRoadmapFromChatBtn">
+                            <i class="ph-bold ph-lightning"></i>
+                            Generate Tailored Plan
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Center/Right: Interactive AI Chat Window -->
+                <div class="glass-card chat-window">
+                    <div class="chat-header">
+                        <div class="mentor-info">
+                            <div class="mentor-avatar">
+                                <i class="ph-bold ph-robot"></i>
+                                <span class="status-dot online"></span>
+                            </div>
+                            <div>
+                                <h4>Gemini AI Interview Mentor</h4>
+                                <span class="mentor-status" id="aiModelIndicator">Interactive Mode (Gemini 1.5 Flash / Adaptive Engine)</span>
+                            </div>
+                        </div>
+                        <div class="chat-header-actions">
+                            <button class="btn btn-outline btn-sm" id="clearChatBtn" title="Clear Conversation">
+                                <i class="ph-bold ph-trash"></i>
+                                <span>Clear</span>
+                            </button>
+                            <button class="btn-icon" id="restartChatBtn" title="Restart Interview Assessment">
+                                <i class="ph-bold ph-arrow-counter-clockwise"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages-scroll" id="chatMessagesContainer">
+                        <!-- Messages dynamically injected -->
+                    </div>
+
+                    <!-- Quick Prompts Bar -->
+                    <div class="quick-prompts-bar" id="quickPromptsBar">
+                        <button class="chip" onclick="app.sendQuickPrompt('I have 4 years of Java/Spring Boot experience preparing for FAANG. What should I prioritize?')">
+                            💼 4 YOE Java / FAANG
+                        </button>
+                        <button class="chip" onclick="app.sendQuickPrompt('Test my knowledge on Distributed Caching, Cache Stampede, and Redis invalidation strategies.')">
+                            🏗️ Test Redis & Caching
+                        </button>
+                        <button class="chip" onclick="app.sendQuickPrompt('Give me a quick mock technical question on Java 21 Concurrency and Virtual Threads.')">
+                            ⚡ Java 21 Concurrency Mock
+                        </button>
+                        <button class="chip" onclick="app.sendQuickPrompt('Generate my tailored roadmap with exact LeetCode problem links and verified references.')">
+                            🚀 Generate Roadmap
+                        </button>
+                    </div>
+
+                    <!-- Input Bar -->
+                    <form class="chat-input-form" id="chatForm">
+                        <input type="text" id="chatInput" placeholder="Type your answer, ask technical questions, or tell AI your target focus..." autocomplete="off" required>
+                        <button type="submit" class="btn btn-primary" id="sendMessageBtn">
+                            <span>Send</span>
+                            <i class="ph-bold ph-paper-plane-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: TAILORED ROADMAP & CHECKLIST ==================== -->
+        <section class="tab-panel" id="roadmap-view">
+            <div class="roadmap-dashboard">
+                
+                <!-- Top Metrics Banner -->
+                <div class="glass-card metrics-banner">
+                    <div class="metric-block">
+                        <span class="metric-label">Target Role & Curriculum</span>
+                        <div class="metric-value-wrap">
+                            <span class="status-badge active" id="planStatusBadge">Active Roadmap</span>
+                            <span class="plan-role-title" id="planRoleHeader">Senior Java Backend Engineer</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-block">
+                        <span class="metric-label">Estimated Preparation Time</span>
+                        <div class="metric-number"><span id="planTotalHours">48</span> <small id="planTimelineLabel">Hours (30 Days Plan)</small></div>
+                    </div>
+
+                    <div class="metric-block">
+                        <span class="metric-label">Tasks Completed</span>
+                        <div class="metric-number"><span id="completedTasksCount">0</span> / <span id="totalTasksCount">19</span> <small>Tasks</small></div>
+                    </div>
+
+                    <div class="metric-block">
+                        <span class="metric-label">Interview Readiness</span>
+                        <div class="readiness-gauge">
+                            <div class="circular-progress" id="readinessCircle" style="--percent: 0;">
+                                <span class="gauge-value" id="readinessScoreText">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roadmap Controls & Filter -->
+                <div class="roadmap-controls-bar">
+                    <div class="roadmap-filter-buttons" id="roadmapCategoryFilters">
+                        <button class="filter-pill active" data-roadmap-filter="ALL">All Milestones</button>
+                        <button class="filter-pill" data-roadmap-filter="CODING_PRACTICE">💻 DSA & LeetCode</button>
+                        <button class="filter-pill" data-roadmap-filter="SYSTEM_DESIGN">🏗️ System Design</button>
+                        <button class="filter-pill" data-roadmap-filter="READING">📚 Core Stack & Books</button>
+                        <button class="filter-pill" data-roadmap-filter="MOCK_INTERVIEW">🎯 Mock & Behavioral</button>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="app.regenerateFromCurrentSettings()">
+                        <i class="ph-bold ph-arrows-clockwise"></i>
+                        <span>Regenerate from Current Matrix</span>
+                    </button>
+                </div>
+
+                <!-- Milestone Phases Timeline (with direct LeetCode and reference links) -->
+                <div class="milestones-container" id="milestonesContainer">
+                    <!-- Dynamic Milestones with Tasks and Verified Links injected by app.js -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: VERIFIED MATERIALS DIRECTORY ==================== -->
+        <section class="tab-panel" id="resources-view">
+            <div class="resources-hub">
+                
+                <div class="hub-header">
+                    <div>
+                        <h2>Verified Educational Material & Reference Library</h2>
+                        <p class="subtitle">Every single Book, YouTube Channel, Tutorial, and LeetCode problem is verified for working URLs.</p>
+                    </div>
+                    
+                    <div class="category-filters" id="categoryFilters">
+                        <button class="filter-pill active" data-category="ALL">All Materials</button>
+                        <button class="filter-pill" data-category="BOOK">📚 Books</button>
+                        <button class="filter-pill" data-category="YOUTUBE_CHANNEL">🎥 YouTube Channels</button>
+                        <button class="filter-pill" data-category="ONLINE_TUTORIAL">🌐 Online Tutorials</button>
+                        <button class="filter-pill" data-category="PRACTICE_PLATFORM">💻 LeetCode & Practice</button>
+                        <button class="filter-pill" data-category="DOCUMENTATION">📄 Official Docs</button>
+                    </div>
+                </div>
+
+                <!-- Search & Topic Filter -->
+                <div class="glass-card search-bar-card">
+                    <div class="search-input-wrap">
+                        <i class="ph-bold ph-magnifying-glass"></i>
+                        <input type="text" id="resourceSearchInput" placeholder="Search by book title, author, YouTube channel, topic (e.g. System Design, Kafka, DSA, Clean Code, LeetCode)...">
+                    </div>
+                    <div class="verification-guarantee">
+                        <i class="ph-bold ph-seal-check"></i>
+                        <span>100% Tested Working Links • Direct Problem References</span>
+                    </div>
+                </div>
+
+                <!-- Resources Grid -->
+                <div class="resources-grid" id="resourcesGrid">
+                    <!-- Injected Verified Resource Cards -->
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Gemini API Key Configuration Modal -->
+    <div class="modal-overlay" id="geminiKeyModal">
+        <div class="glass-card modal-card">
+            <button class="modal-close-btn" id="closeGeminiModalBtn"><i class="ph-bold ph-x"></i></button>
+            
+            <div class="modal-header">
+                <div class="modal-icon" style="background: linear-gradient(135deg, #4285F4, #EA4335, #FBBC04, #34A853); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5rem;"><i class="ph-bold ph-sparkle" style="-webkit-text-fill-color: #4285F4;"></i></div>
+                <h3>Connect Google Gemini AI</h3>
+                <p class="subtitle">A free API key is <strong>required</strong> to power the AI interview mentor</p>
+            </div>
+
+            <div class="gemini-setup-steps" style="background: rgba(66, 133, 244, 0.08); border: 1px solid rgba(66, 133, 244, 0.2); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+                <p style="font-weight: 600; color: var(--accent-cyan); margin-bottom: 10px; font-size: 0.85rem;">⚡ Get your FREE API key in 30 seconds:</p>
+                <ol style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.8; padding-left: 20px; margin: 0;">
+                    <li>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color: #4285F4; font-weight: 600;">Google AI Studio → API Keys</a></li>
+                    <li>Click <strong>"Create API Key"</strong> (sign in with Google if needed)</li>
+                    <li>Copy the key and paste it below</li>
+                </ol>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; margin-bottom: 0;">✅ Free tier includes 15 requests/min — more than enough for interview prep!</p>
+            </div>
+
+            <form class="auth-form" id="geminiKeyForm">
+                <div class="form-group">
+                    <label for="geminiApiKeyInput">Gemini API Key <span style="color: var(--accent-rose);">*</span></label>
+                    <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." autocomplete="off" required>
+                    <small class="form-hint" id="geminiKeyError" style="color: var(--accent-rose); display: none;"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="geminiModelSelect">Model Version</label>
+                    <select id="geminiModelSelect" class="form-select">
+                        <option value="gemini-3.6-flash" selected>Gemini 3.6 Flash (Recommended — Fast &amp; Free)</option>
+                        <option value="gemini-2.5-flash">Gemini 2.5 Flash (Stable, Free)</option>
+                        <option value="gemini-2.5-pro">Gemini 2.5 Pro (Advanced)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block glow-btn">
+                    <i class="ph-bold ph-lightning"></i>
+                    Connect &amp; Start AI Interview Mentor
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="glass-card modal-card">
+            <button class="modal-close-btn" id="closeAuthModalBtn"><i class="ph-bold ph-x"></i></button>
+            
+            <div class="modal-header">
+                <div class="modal-icon"><i class="ph-bold ph-lock-key"></i></div>
+                <h3 id="authModalTitle">Candidate Sign In</h3>
+                <p class="subtitle">Access your tailored interview roadmap and chat history</p>
+            </div>
+
+            <form class="auth-form" id="authForm">
+                <div class="form-group" id="fullNameGroup" style="display: none;">
+                    <label>Full Name</label>
+                    <input type="text" id="authFullName" placeholder="e.g. Channabasu">
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="authEmail" value="candidate@interviewcraft.io" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="authPassword" value="InterviewCraft2026!" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block glow-btn" id="submitAuthBtn">
+                    Sign In
+                </button>
+
+                <div class="toggle-auth-link">
+                    <span id="toggleAuthPrompt">Don't have an account?</span>
+                    <a href="#" id="toggleAuthModeLink">Create Account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
