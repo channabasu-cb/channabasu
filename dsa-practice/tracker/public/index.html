@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DSA 60-Day Tracker — Interview Prep</title>
+  <meta name="description" content="Track your 60-day DSA interview preparation progress with interactive checkboxes, problem links, and learning resources." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <!-- Loading screen -->
+  <div id="loader" class="loader">
+    <div class="loader-content">
+      <div class="loader-ring"></div>
+      <p>Loading your progress...</p>
+    </div>
+  </div>
+
+  <!-- Header with stats -->
+  <header id="header">
+    <div class="header-left">
+      <h1 class="logo">
+        <span class="logo-icon">🚀</span>
+        <span class="logo-text">DSA<span class="logo-accent">Tracker</span></span>
+      </h1>
+      <span class="logo-subtitle">60-Day Interview Prep</span>
+    </div>
+    <div class="header-stats">
+      <div class="stat-card" id="stat-progress">
+        <div class="stat-ring">
+          <svg viewBox="0 0 36 36">
+            <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            <path class="ring-fill" id="ring-fill" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          </svg>
+          <span class="ring-text" id="ring-text">0%</span>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Overall</span>
+          <span class="stat-value" id="stat-overall">0/0</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">📅</span>
+        <div class="stat-info">
+          <span class="stat-label">Current Day</span>
+          <span class="stat-value" id="stat-day">1</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🔥</span>
+        <div class="stat-info">
+          <span class="stat-label">Streak</span>
+          <span class="stat-value" id="stat-streak">0 days</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">💻</span>
+        <div class="stat-info">
+          <span class="stat-label">Problems</span>
+          <span class="stat-value" id="stat-problems">0</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Sidebar: phase nav -->
+    <aside id="sidebar">
+      <nav class="phase-nav">
+        <button class="phase-btn active" data-phase="0">
+          <span class="phase-num">1</span>
+          <div class="phase-info">
+            <span class="phase-name">Foundation</span>
+            <span class="phase-days">Days 1–17</span>
+          </div>
+          <div class="phase-progress-bar"><div class="phase-progress-fill" id="phase-prog-0"></div></div>
+        </button>
+        <button class="phase-btn" data-phase="1">
+          <span class="phase-num">2</span>
+          <div class="phase-info">
+            <span class="phase-name">Core DS</span>
+            <span class="phase-days">Days 18–34</span>
+          </div>
+          <div class="phase-progress-bar"><div class="phase-progress-fill" id="phase-prog-1"></div></div>
+        </button>
+        <button class="phase-btn" data-phase="2">
+          <span class="phase-num">3</span>
+          <div class="phase-info">
+            <span class="phase-name">Advanced</span>
+            <span class="phase-days">Days 35–53</span>
+          </div>
+          <div class="phase-progress-bar"><div class="phase-progress-fill" id="phase-prog-2"></div></div>
+        </button>
+        <button class="phase-btn" data-phase="3">
+          <span class="phase-num">4</span>
+          <div class="phase-info">
+            <span class="phase-name">Mastery</span>
+            <span class="phase-days">Days 54–60</span>
+          </div>
+          <div class="phase-progress-bar"><div class="phase-progress-fill" id="phase-prog-3"></div></div>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="difficulty-legend">
+          <span class="legend-title">Difficulty</span>
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-hard">Hard</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content area -->
+    <section id="content">
+      <div class="content-header">
+        <h2 id="phase-title">Phase 1: Foundation</h2>
+        <p id="phase-desc">Arrays, Strings, Hashing, Two Pointers, Sorting & Binary Search</p>
+      </div>
+      <div id="days-container" class="days-grid">
+        <!-- Days rendered by JS -->
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
